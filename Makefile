@@ -55,7 +55,7 @@ HLS_CONFIG_FILE = $(CURDIR)/__hls_config__.ini
 
 %_test.bin: %_test.cpp $(SRC_DIR)/%.cpp
 	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) \
-	$(CXX) -I$(VHLS)/include -DVERIF_MODE=1 $? -g -o $@
+	$(CXX) -I$(VHLS)/include -Iinclude -DVERIF_MODE=1 $? -g -o $@
 
 #  missing cos_table and sin_table definition. No testbench files available
 #	dft.c \
