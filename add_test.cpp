@@ -1,16 +1,35 @@
 #include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <cstdint>
 
 #include "add.h"
 
+const int NUM_TEST = 100;
+
 int main()
 {
-	int in1 = 5, in2 = 3;
-	int out;
+	std::ifstream f("testgen/test_vectors.txt");
+	if (!f.is_open())
+	{
+		std::cerr << "Tests failed: test vector file does not exist\n";
+		return EXIT_FAILURE;
+	}
 
-	add(in1, in2, out);
+	ITYPE x, y;
+	OTYPE out, expected;
+	uint32_t failures = 0;
 
-	if (out != 8)
-		std::cout << "Test failed!\n";
-	else
-		std::cout << "Test passed!\n";
+	for (int i = 0; i < NUM_TEST; i++)
+	{
+		f >> x >> y >> expected;	
+		add(x, y, out);
+		if (out != expected)
+		{
+			std::cerr << "Test failed: expected " << expected << " got " << out << std::endl;
+			failures++;
+		}
+	}
+
+	std::cout << "Total failures: " << failures << " / " << NUM_TEST << std::endl;
 }

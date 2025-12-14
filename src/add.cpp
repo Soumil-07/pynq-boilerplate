@@ -1,4 +1,6 @@
-void add(int a, int b, int& c) {
+#include "add.h"
+
+void add(ITYPE a, ITYPE b, OTYPE& c) {
 #pragma HLS INTERFACE ap_ctrl_none port=return
 #pragma HLS INTERFACE s_axilite port=a
 #pragma HLS INTERFACE s_axilite port=b
