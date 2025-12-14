@@ -5,3 +5,5 @@ logs/
 *.log
 
 *.rpt
+
+testgen/test_vectors.txt
