@@ -28,6 +28,7 @@ USE_VITIS=1
  HLS_COMPILER=vivado_hls -f
  endif
 
+SRC_DIR = src
 
 EXAMPLES_CPP = $(shell ls *_test.cpp)
 EXAMPLES_BIN = $(patsubst %.cpp,%,$(EXAMPLES_CPP))
@@ -52,7 +53,7 @@ HLS_CONFIG_FILE = $(CURDIR)/__hls_config__.ini
 	$(CXX) -I$(VHLS)/include -c $< -o $@
 
 
-%_test.bin: %_test.cpp %.cpp
+%_test.bin: %_test.cpp $(SRC_DIR)/%.cpp
 	LD_LIBRARY_PATH=$(LD_LIBRARY_PATH) \
 	$(CXX) -I$(VHLS)/include -DVERIF_MODE=1 $? -g -o $@
 
@@ -62,15 +63,15 @@ HLS_CONFIG_FILE = $(CURDIR)/__hls_config__.ini
 
 
 CXX_HLS_TARGET_FILES = \
-	$(TOP).cpp
+	$(SRC_DIR)/$(TOP).cpp
 
-HLS_TARGETS = $(patsubst %.cpp,%.comp,$(CXX_HLS_TARGET_FILES))
+HLS_TARGETS = $(TOP).comp
 
 %.comp: %.tcl
 	$(HLS_COMPILER) $< || { s=$$?; echo "$(HLS_COMPILER) $< failed $$s" >&2; exit $$s; }
 
 
-%.tcl: %.cpp
+%.tcl: $(SRC_DIR)/%.cpp
 	$(GEN_TCL) -c $(HLS_CONFIG_FILE) -i $< -o $@
 
 %.log: %.bin

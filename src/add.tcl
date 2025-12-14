@@ -1,5 +1,5 @@
-open_component add.comp -reset
-add_files [list src/add.cpp]
+open_component src/add.comp -reset
+add_files [list add.cpp]
 add_files -tb [list add_test.cpp]
 set_top add
 puts "Running: set_top add"

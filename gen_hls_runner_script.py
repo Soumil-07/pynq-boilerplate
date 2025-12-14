@@ -81,7 +81,7 @@ def write_script(
 ):
     "Write the HLS script to the output file"
 
-    file_root = input_file.split(".")[0]
+    file_root = Path(input_file).stem
 
     # get the HLS Tcl script parameters
     top = params["top"]
@@ -143,11 +143,11 @@ def get_script_parameters(input_file, config, id_tag=None):
     logger.debug(f"basename Input file: {file_basename}")
 
     # get the base name of the input file without extension
-    file_rootname = input_file.split(".")[0]
+    file_rootname = Path(input_file).stem
     logger.debug(f"Rootname Input file: {file_rootname}")
 
     # get the extension of the input file
-    file_suffix = input_file.split(".")[1]
+    file_suffix = Path(input_file).suffix.lstrip('.')
     logger.debug(f"Suffix Input file: {file_suffix}")
 
     config_dict = {section: dict(config[section]) for section in config.sections()}
@@ -157,8 +157,8 @@ def get_script_parameters(input_file, config, id_tag=None):
         "top": file_rootname,
         "part": config["DEFAULTS"]["part"],
         "period": config["DEFAULTS"]["period"],
-        "files": file_basename,
-        "tb_files": f"{file_rootname}-top.{file_suffix}",
+        "files": input_file,
+        "tb_files": f"{file_rootname}_test.{file_suffix}",
     }
 
     # update each parameter if it is defined in the config file and

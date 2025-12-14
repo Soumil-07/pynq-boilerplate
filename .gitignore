@@ -1,2 +1,4 @@
+# HLS compilation folder
 *.comp
 logs/
+*.rpt
